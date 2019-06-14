@@ -73,12 +73,9 @@ ggpubr::ggarrange(plotlist = p, ncol = 3)
 
 
 ### Store results in synapse
-```{r synapsestore, echo=FALSE, include=FALSE}
-## Create an activity
-activityName <- 'Data exploration'
-thisFileName <- 'push2yn.Rmd'
-
+```{r synapsestore, echo=FALSE, include=FALSE, cache=FALSE}
 ## Get commits from github
+thisFileName <- 'push2yn.Rmd'
 thisRepo <- getRepo('th1vairam/SageBrownBagDemo', ref='branch', refName='master')
 thisFile <- getPermlink(repository = thisRepo,
                         repositoryPath=thisFileName)
@@ -86,11 +83,12 @@ thisFile <- getPermlink(repository = thisRepo,
 # Store file with provenance in synapse
 CODE <- synapser::File(path = thisFileName,
                        name = "Data Exploration",
-                       parent = 'syn19113441',
-                       activityName = activityName, 
-                       used = c(COV_ID, COUNT_ID),
-                       executed = thisFile)
-CODE <- synapser::synStore(CODE)
+                       parent = 'syn19113441') 
+                       
+CODE <- synapser::synStore(CODE,
+                           activityName = 'Data exploration',
+                           used = c(COV_ID, COUNT_ID),
+                           executed = thisFile)
 ```
 
 ## Knit the markdown, create a folder entity and create the wiki
