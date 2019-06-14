@@ -1,6 +1,6 @@
 ---
 title: "Create a file and push to synapse with povenance"
-description: "This file pulls data from synapse computes correlation "
+description: "This file pulls data from synapse explore data and push plots back to Synapse "
 author: "Thanneer Perumal"
 date: "`r date()`"
 output: html_document
@@ -54,7 +54,7 @@ COV = tidyr::separate(COVAR, Tissue.Diagnosis, c('Tissue','Diagnosis'), sep = '\
 table(COV$Tissue, COV$Diagnosis)
 ```
 ### Summarise covariates
-```{r explore2, fig.width=12, fig.height=6}
+```{r explore2, fig.width=12, fig.height=4}
 # RIN
 p = list()
 p[[1]] = ggplot(COV, aes(x = Diagnosis, y = RIN)) + geom_boxplot()
