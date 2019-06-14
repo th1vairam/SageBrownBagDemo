@@ -85,6 +85,7 @@ thisFile <- getPermlink(repository = thisRepo,
 
 # Store file with provenance in synapse
 CODE <- synapser::File(path = thisFileName,
+                       name = "Data Exploration",
                        parent = 'syn19113441',
                        activityName = activityName, 
                        used = c(COV_ID, COUNT_ID),
