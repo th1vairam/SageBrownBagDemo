@@ -19,6 +19,7 @@ library(tidyverse)
 library(ggplot2)
 library(synapser)
 library(knit2synapse)
+library(githubr)
 
 synLogin()
 
@@ -47,7 +48,7 @@ Covariates data obtained from `r COV_OBJ$properties$id` and counts data obtained
 
 ## Explore data
 ### Summarise number and category of samples
-```{r explore1}
+```{r explore1, eval = F}
 COV = separate(COV, Tissue.Diagnosis, c('Tissue','Diagnosis'), sep = '\\.')
 
 table(COV$Tissue, COV$Diagnosis)
@@ -78,23 +79,22 @@ activityName <- 'Data exploration'
 thisFileName <- 'push2yn.Rmd'
 
 ## Get commits from github
-thisRepo <- getRepo(repository = "th1vairam/SageBrownBagDemo", 
-                    ref="branch", 
-                    refName='master')
-
+repoBranch <- getRepo('th1vairam/SageBrownBagDemo', ref='branch', refName='master')
 thisFile <- getPermlink(repository = thisRepo,
                         repositoryPath=thisFileName)
 
 # Store file with provenance in synapse
-CODE <- File(name = 'Data Exploration', parentId = 'syn19113441',
-             activityName = activityName, 
-             used = c(COV_OBJ, COUNT_OBJ), executed = thisFile)
-CODE <- synStore(CODE)
+CODE <- synapser::File(path = thisFileName,
+                       parent = 'syn19113441',
+                       activityName = activityName, 
+                       used = c(COV_ID, COUNT_ID),
+                       executed = thisFile)
+CODE <- synapser::synStore(CODE)
 ```
 
-## Knit the markdown, create a file entity and create the wiki
+## Knit the markdown, create a folder entity and create the wiki
 ```{r create.file.in.synapse, include=FALSE, eval = FALSE}
-knit2synapse::createAndKnitToFileEntity(file = "./push2yn.Rmd", # Markdown file name
-                                        parentId = "syn19113441", # parentId to store this file in synapse
-                                        fileName = "Data Exploration") # optional fileName
+createAndKnitToFolderEntity(file = "./push2yn.Rmd", # Markdown file name
+                            parentId = "syn19113441", # parentId to store this file in synapse
+                            folderName = "Data Exploration Folder") # optional folderName
 ```
