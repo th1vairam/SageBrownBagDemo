@@ -1,0 +1,31 @@
+---
+title: "Synapser Demo"
+author: "Thanneer Malai Perumal"
+date: "Fri Jun 14 14:16:10 2019"
+output: html_document
+---
+## Install synapser
+```{r install, include=FALSE, eval = F}
+options(repos=c("http://ran.synapse.org", "http://cran.fhcrc.org"))
+install.packages("synapser")
+```
+
+## Login to synapse
+```{r syn.login}
+library(synapser)
+synLogin()
+```
+## Let's create a project
+```{r create.project}
+projectName <- 'SageBownBagDemo'
+project <- Project(projectName)
+project <- synStore(project)
+print(project)
+```
+## Lets store this file in synapse
+```{r sore.current.file}
+# Create some files
+file <- File(path = './synapser_demo.Rmd', parent = project)
+file <- synStore(file)
+print(file)
+```

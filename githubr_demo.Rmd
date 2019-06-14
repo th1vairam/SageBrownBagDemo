@@ -1,0 +1,23 @@
+---
+title: "githubr Demo"
+author: "Thanneer Malai Perumal"
+date: `r date()`
+output: html_document
+---
+## Install githubr
+```{r install, include=FALSE}
+devtools::install_github("brian-bot/githubr")
+```
+
+## Get HEAD of a specific branch
+```{r get.head}
+library(githubr)
+repoBranch <- getRepo('th1vairam/SageBrownBagDemo', ref='branch', refName='master')
+
+print(repoBranch)
+```
+## Get permanent link of a specific file from the HEAD branch
+```{r get.prm.link}
+thisFile <- getPermlink(repository = repoBranch, repositoryPath = 'First_Demo.Rmd')
+print(thisFile)
+```

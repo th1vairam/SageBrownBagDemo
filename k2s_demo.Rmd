@@ -1,0 +1,43 @@
+---
+title: "Push a markdown as file to synapse"
+author: "Thanneer Malai Perumal"
+date: "6/14/2018"
+output: html_document
+---
+## Install synapser
+```{r install.sr, include=FALSE, eval = F}
+options(repos=c("http://ran.synapse.org", "http://cran.fhcrc.org"))
+install.packages("synapser")
+```
+
+## Install knit2synapse
+```{r install.k2s, include=FALSE, eval = F}
+devtools::install_github("Sage-Bionetworks/knit2synapse")
+```
+
+## Knit the markdown and update the file wiki in synapse
+```{r knit.file.2.synapse, include=FALSE}
+library(synapser) # Load synapser package and login in to synapse before using knit2synapse
+library(knit2synapse) # Get the package from devtools::install_github('Sage-Bionetworks/knit2synapse')
+
+synLogin() # Login in to synapse before running knit2synapse
+
+knit2synapse::knitfile2synapse(file = "./synapser_demo.Rmd", # File name
+                               owner = "syn19113441", # wikiId of an exisitng synapse entity
+                               wikiName = "Synapser Demo") # optional wikiname
+```
+
+## Knit the markdown, create a file entity and create the wiki
+```{r create.file.in.synapse, include=FALSE}
+knit2synapse::createAndKnitToFileEntity(file = "./synapser_demo.Rmd", # Markdown file name
+                                        parentId = "syn19113441", # parentId to store this file in synapse
+                                        fileName = "Example for createFile") # optional fileName
+```
+
+
+## Knit the markdown, create a folder entity and create the wiki
+```{r create.folder.in.synapse, include=FALSE}
+knit2synapse::createAndKnitToFolderEntity(file = "./Markdown_demo.Rmd", # This markdown file name
+                                          parentId = "syn19113441", # parentId to store this file in synapse
+                                          folderName = "Example for createFolder") # optional folderName
+```
